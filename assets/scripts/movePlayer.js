@@ -13,6 +13,7 @@ cc.Class({
 
     properties: {
         ySpeed: 0,
+        playerCode: true,
     },
 
     // LIFE-CYCLE CALLBACKS:
@@ -46,26 +47,38 @@ cc.Class({
     },
 
     onKeyDown: function (event) {
+        var keyUP = cc.KEY.w;
+        var keyDOWN = cc.KEY.s;
+        if (playerCode) {
+            keyUP = cc.KEY.up;
+            keyDOWN = cc.KEY.down;
+        }
         switch (event.keyCode) {
-            case cc.KEY.w:
-                console.log('Press w key');
+            case keyUP:
+                console.log('Press UP key');
                 this.accUp = true;
                 break;
-            case cc.KEY.s:
-                console.log('Press s key');
+            case keyDOWN:
+                console.log('Press DOWN key');
                 this.accDown = true;
                 break;
         }
     },
 
     onKeyUp: function (event) {
+        var keyUP = cc.KEY.w;
+        var keyDOWN = cc.KEY.s;
+        if (playerCode) {
+            keyUP = cc.KEY.up;
+            keyDOWN = cc.KEY.down;
+        }
         switch (event.keyCode) {
-            case cc.KEY.w:
-                console.log('Release w key');
+            case keyUP:
+                console.log('Release UP key');
                 this.accUp = false;
                 break;
-            case cc.KEY.s:
-                console.log('Release s key');
+            case keyDOWN:
+                console.log('Release DOWN key');
                 this.accDown = false;
                 break;
         }
