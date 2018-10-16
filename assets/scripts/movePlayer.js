@@ -12,76 +12,69 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
-        ySpeed: 0,
-        playerCode: true,
+        maxYspeed: 0,
+        accel: 0,
     },
-
-    // LIFE-CYCLE CALLBACKS:
 
     onLoad: function () {
-        // add key down and key up event
-        cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
-        cc.systemEvent.on(cc.SystemEvent.EventType.KEY_UP, this.onKeyUp, this);
-
         this.accUp = false;
         this.accDown = false;
+
+        this.ySpeed = 1;
+
+        this.setInputControl();
     },
 
-    start() {
-
-
+    setInputControl: function () {
+        var self = this;
+        cc.eventManager.addListener({
+            event: cc.EventListener.KEYBOARD,
+            onKeyPressed: function (keycode, event) {
+                switch (keycode) {
+                    case cc.KEY.w:
+                        self.accUp = true;
+                        self.accDown = false;
+                        console.log("up");
+                        break;
+                    case cc.KEY.s:
+                        self.accDown = true;
+                        self.accUp = false;
+                        console.log("down");
+                        break;
+                }
+            },
+            onKeyReleased: function (keycode, event) {
+                switch (keycode) {
+                    case cc.KEY.w:
+                        self.accUp = false;
+                        break;
+                    case cc.KEY.s:
+                        self.accDown = false;
+                        break;
+                }
+            }
+        }, self.node);
     },
 
-    update(dt) {
+
+
+    update: function (dt) {
+
+        //console.log(this.ySpeed);
+
         if (this.accUp) {
-            this.node.y += this.ySpeed * dt;
+            this.ySpeed += this.accel * dt;
         } else if (this.accDown) {
-            this.node.y -= this.ySpeed * dt;
+            this.ySpeed -= this.accel * dt;
         }
-        //this.node.y += 10 * dt;
+        if (Math.abs(this.ySpeed) > this.maxYspeed) {
+            // Formula para manter a velocidade constante
+            this.ySpeed = this.maxYspeed * (this.ySpeed / Math.abs(this.ySpeed));
+        }
+
+        this.node.y += this.ySpeed * dt;
+
     },
 
-    destroy() {
-        //cc.systemEvent.off(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
-        //cc.systemEvent.off(cc.SystemEvent.EventType.KEY_UP, this.onKeyUp, this);
-    },
-
-    onKeyDown: function (event) {
-        var keyUP = cc.KEY.w;
-        var keyDOWN = cc.KEY.s;
-        if (playerCode) {
-            keyUP = cc.KEY.up;
-            keyDOWN = cc.KEY.down;
-        }
-        switch (event.keyCode) {
-            case keyUP:
-                console.log('Press UP key');
-                this.accUp = true;
-                break;
-            case keyDOWN:
-                console.log('Press DOWN key');
-                this.accDown = true;
-                break;
-        }
-    },
-
-    onKeyUp: function (event) {
-        var keyUP = cc.KEY.w;
-        var keyDOWN = cc.KEY.s;
-        if (playerCode) {
-            keyUP = cc.KEY.up;
-            keyDOWN = cc.KEY.down;
-        }
-        switch (event.keyCode) {
-            case keyUP:
-                console.log('Release UP key');
-                this.accUp = false;
-                break;
-            case keyDOWN:
-                console.log('Release DOWN key');
-                this.accDown = false;
-                break;
-        }
-    }
 
 });
