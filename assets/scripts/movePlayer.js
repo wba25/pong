@@ -22,6 +22,8 @@ cc.Class({
 
         this.ySpeed = 1;
 
+        
+
         this.setInputControl();
     },
 
