@@ -15,8 +15,15 @@ cc.Class({
     },
 
     onLoad: function () {
+        // Habilita gerenciamento da fisica
         cc.director.getPhysicsManager().enabled = true;
-        cc.director.getPhysicsManager().gravity = cc.v2();
+        cc.director.getPhysicsManager().gravity = cc.v2(); // Remove gravidade
+
+        // Habilita gerenciamento de colissoes
+        cc.director.getCollisionManager().enabled = true;
+        cc.director.getCollisionManager().enabledDrawBoundingBox = true;
+        cc.director.getCollisionManager().enabledDebugDraw = true;
+        
     },
 
     start: function () {

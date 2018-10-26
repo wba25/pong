@@ -13,16 +13,12 @@ cc.Class({
 
     properties: {
         maxYspeed: 0,
-        accel: 0,
+        ySpeed: 0,
     },
 
     onLoad: function () {
         this.accUp = false;
         this.accDown = false;
-
-        this.ySpeed = 1;
-
-        
 
         this.setInputControl();
     },
@@ -64,6 +60,7 @@ cc.Class({
 
         //console.log(this.ySpeed);
 
+        /*
         if (this.accUp) {
             this.ySpeed += this.accel * dt;
         } else if (this.accDown) {
@@ -73,8 +70,17 @@ cc.Class({
             // Formula para manter a velocidade constante
             this.ySpeed = this.maxYspeed * (this.ySpeed / Math.abs(this.ySpeed));
         }
-
         this.node.y += this.ySpeed * dt;
+        */
+
+        if (this.accUp) {
+            this.node.y += this.ySpeed + dt;
+        } 
+        else if (this.accDown) {
+            this.node.y -= this.ySpeed + dt;
+        }  
+
+        this.node.y = cc.clampf(this.node.y, -230, 230);
 
     },
 

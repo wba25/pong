@@ -12,7 +12,8 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
-        
+        initialVectorX: 0,
+        initialVectorY: 0
     },
 
     // LIFE-CYCLE CALLBACKS:
@@ -23,14 +24,16 @@ cc.Class({
 
         //var rigidbody = this.node.getComponent(cc.RigidBody);
 
-        let rigidbody = this.node.getComponent(cc.RigidBody);
-        var velocity = rigidbody.linearVelocity;
-        rigidbody.linearVelocity = cc.v2(0, -1000);
-        console.log(":D This is: "+velocity);
+        this.moveBall(this.initialVectorX, this.initialVectorY);
+    },
+    
+    onCollisionEnter: function (other, self) {
+        console.log('AAAAAAAAAAAAAAA!');
     },
 
-    moveBall: function () {
-        
+    moveBall: function (x, y) {
+        let rigidbody = this.node.getComponent(cc.RigidBody);
+        rigidbody.linearVelocity = cc.v2(x, y);
     },
 
     start: function () {
